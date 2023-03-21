@@ -1,0 +1,101 @@
+.app {
+  text-align: center;
+
+  h1 {
+    background: #FF8C42;
+    box-shadow: 0 0 5px 4px #FF8C42;
+  }
+  #vegan {
+    width: 30px;
+    height: 30px;
+    top: 4px;
+    position: relative;
+    margin-right: 14px;
+  }
+
+  &__people-count {
+    padding: 12px 0;
+
+    input[type="range"] {
+      width: 50%;
+      position: relative;
+      margin-top: 34px;
+
+      &::after {
+        content: attr(value);
+        position: absolute;
+        bottom: 20px;
+        font-size: 22px;
+        margin-left: 50%;
+      }
+    }
+    label {
+      display: inline-block;
+      font-size: 24px;
+      background: #ff8c43;
+      padding: 2px 0;
+      box-shadow: 0 0 9px #ff8c43;
+      margin-top: 20px;
+      width: 100%;
+     }
+  }
+
+  &__food-img {
+    width: 150px;
+    height: 130px;
+  }
+
+  &__food-items {
+    display: flex;
+
+  label {
+    display: block;
+    position: relative;
+    margin: 10px;
+    cursor: pointer;
+    width: 18%;
+
+    &:before {
+      content: " ";
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      text-align: center;
+    }
+    img{
+      transition: 0.3s;
+    }
+  }
+
+    input {
+      display: none;
+
+      &:before {
+        content: '';
+        display: inline-block;
+        width: 1em;
+        height: 1em;
+      }
+    }
+
+    :checked + label {
+      border-radius: 25%;
+      border: 4px dashed #ae3333;
+
+      img {
+        transform: scale(0.9);
+        //transition: 0.3s;
+      }
+    }
+  }
+  &__calculate{
+    box-shadow: 0 0 9px #ae3333;
+    border-radius: 25px;
+    width: 20%;
+    margin-left: 50%;
+    transform: translate(-50%);
+    background: linear-gradient(45deg, #ae3333, purple);
+    cursor: pointer;
+  }
+}
+
