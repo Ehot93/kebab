@@ -1,46 +1,33 @@
-import {useState, useEffect, useRef} from "react";
-import ReactAudioPlayer from 'react-audio-player';
+import {useState} from "react";
+import ReactAudioPlayer from "react-audio-player";
 
-import images from './images'
+import images from "./images"
 import sounds from "./sounds";
+import recipes from "./recipes/recipes.json";
 import './App.scss';
 
 function App() {
     const [people, setPeople] = useState(1);
     const [vegan, setVegan] = useState(0);
-    // const [inputs, setInputs] = useState([]);
-    const pickedProduct = useRef([]);
-    const temp = [];
+    const [pickedProduct, setPickedProduct] = useState('');
 
-    function checkInputs(){
-        const inputs = Array.from(document.querySelectorAll("input.app__food-input"));
-        // setInputs(Array.from(document.querySelectorAll("input.app_food-input")));
-        pickedProduct.current = inputs.map(i => i.checked && i.id);
-        inputs.map(i=>i.checked ? temp.push(i.id) : '');
-        // console.log(pickedProduct);
-        voice();
-        return temp[temp.length-1];
-    }
-
-    function voice() {
-        let temp = [];
-        pickedProduct.current.map(i=>!!i && temp.push(i));
-        console.log(pickedProduct.current, temp)
-
+    function checkInputs(e){
+        setPickedProduct(e.target.id);
+        // const inputs = Array.from(document.querySelectorAll("input.app__food-input"));
     }
 
   return (
     <div className="app">
         <header>
-            <h1>Индекс.Шашлык</h1>
+            <h1 className={"app__title"}>Индекс.Шашлык</h1>
         </header>
         <div className="app__people-count">
-            <label htmlFor={'people-count'}>Сколько человек будут кушать?</label>
+            <label className={"app__people-count__label"} htmlFor={'people-count'}>Сколько человек будут кушать?</label>
             <br/>
             <input value={people} onChange={e=>setPeople(e.currentTarget.value-0)}
                    type="range" id={'people-count'} min={1} max={13}/>
             <br/>
-            <label htmlFor={'vegan'}>Есть веганы?
+            <label className={"app__people-count__label"} htmlFor={'vegan'}>Есть веганы?
                 <input type="checkbox" id={'vegan'} checked={!!vegan} onChange={e=>setVegan(e.currentTarget.checked ? 1 : 0)}/>
                 Они тоже люди!</label>
             <br/>
@@ -49,33 +36,46 @@ function App() {
         </div>
         <div className="app__food">
             <h2>Что будем готовить?</h2>
-                <div className="app__food-items" onChange={()=>checkInputs()}>
-                    <input className="app__food-input" type="checkbox" id="chicken" alt={'chicken'}/>
-                    <label htmlFor='chicken'>
+                <div className="app__food-items" onChange={(e)=>checkInputs(e)}>
+                    <input className="app__food-input" type="radio" id="chicken" alt={'chicken'} name={"food"}/>
+                    <label className={"app__food-items__label"} htmlFor='chicken'>
                         <img className='app__food-img' src={images.chicken} id={'chicken'} alt={"chicken"}/>
                     </label>
-                    <input className="app__food-input" type="checkbox" id="pig" alt={'pig'}/>
-                    <label htmlFor="pig">
+                    <input className="app__food-input" type="radio" id="pig" alt={'pig'} name={"food"}/>
+                    <label className={"app__food-items__label"} htmlFor="pig">
                         <img className='app__food-img' src={images.pig} alt="pig"/>
                     </label>
-                    <input className="app__food-input" type="checkbox" id="beef" alt={'beef'}/>
-                    <label htmlFor="beef">
+                    <input className="app__food-input" type="radio" id="beef" alt={'beef'} name={"food"}/>
+                    <label className={"app__food-items__label"} htmlFor="beef">
                         <img className='app__food-img' src={images.beef} alt="beef"/>
                     </label>
-                    <input className="app__food-input" type="checkbox" id="mutton" alt={'mutton'}/>
-                    <label htmlFor="mutton">
+                    <input className="app__food-input" type="radio" id="mutton" alt={'mutton'} name={"food"}/>
+                    <label className={"app__food-items__label"} htmlFor="mutton">
                         <img className='app__food-img' src={images.mutton} alt="mutton"/>
                     </label>
-                    <input className="app__food-input" type="checkbox" id="vegetables" alt={'vegetables'}/>
-                    <label htmlFor="vegetables">
+                    <input className="app__food-input" type="radio" id="vegetables" alt={'vegetables'} name={"food"}/>
+                    <label className={"app__food-items__label"} htmlFor="vegetables">
                         <img className='app__food-img' src={images.vegetables} alt="vegetables"/>
                     </label>
-                    <ReactAudioPlayer
-                        src={sounds.pig}
-                        autoPlay={false}
-                        volume={0.2}
-                    ></ReactAudioPlayer>
+                    {pickedProduct &&
+                        <ReactAudioPlayer
+                            src={sounds[`${pickedProduct}`]}
+                            autoPlay
+                            volume={0.2}
+                        />
+                    }
                 </div>
+        </div>
+        <div className={"app__recipes"}>
+            <h2>Выбери рецепт:</h2>
+            {pickedProduct &&
+                <ul>
+                    <li>
+                        {recipes.chicken[0].id}
+                    </li>
+                    <li>{recipes.chicken[0].products}</li>
+                </ul>
+            }
         </div>
         <div className={"app__calculate"} onClick={()=>alert('нужно ' + people*0.5 + 'кг мяса,\n и '+ vegan*0.5 + 'кг овощей')}>Посчитать</div>
     </div>

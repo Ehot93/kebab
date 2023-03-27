@@ -1,7 +1,7 @@
 .app {
   text-align: center;
 
-  h1 {
+  &__title {
     background: #FF8C42;
     box-shadow: 0 0 5px 4px #FF8C42;
   }
@@ -29,7 +29,7 @@
         margin-left: 50%;
       }
     }
-    label {
+    &__label {
       display: inline-block;
       font-size: 24px;
       background: #ff8c43;
@@ -48,24 +48,24 @@
   &__food-items {
     display: flex;
 
-  label {
-    display: block;
-    position: relative;
-    margin: 10px;
-    cursor: pointer;
-    width: 18%;
+    &__label {
+      display: block;
+      position: relative;
+      margin: 10px;
+      cursor: pointer;
+      width: 18%;
 
-    &:before {
-      content: " ";
-      position: absolute;
-      width: 30px;
-      height: 30px;
-      text-align: center;
+      &:before {
+        content: " ";
+        position: absolute;
+        width: 30px;
+        height: 30px;
+        text-align: center;
+      }
+      img{
+        transition: 0.3s;
+      }
     }
-    img{
-      transition: 0.3s;
-    }
-  }
 
     input {
       display: none;
